@@ -45,8 +45,10 @@ export const createSessionController = () => {
       });
 
       if (qr) {
+        const qrBase64 = await toDataURL(qr);
         return c.json({
           qr: qr,
+          qr_base64: qrBase64,
         });
       }
 
@@ -57,6 +59,7 @@ export const createSessionController = () => {
       });
     }
   );
+
   app.get(
     "/start",
     createKeyMiddleware(),

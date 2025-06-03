@@ -35,16 +35,24 @@ export const createMessageController = () => {
         isGroup: payload.is_group,
       });
 
-      const response = await whatsapp.sendTextMessage({
-        sessionId: payload.session,
-        to: payload.to,
-        text: payload.text,
-        isGroup: payload.is_group,
-      });
+      try {
+        const response = await whatsapp.sendTextMessage({
+          sessionId: payload.session,
+          to: payload.to,
+          text: payload.text,
+          isGroup: payload.is_group,
+        });
 
-      return c.json({
-        data: response,
-      });
+        return c.json({
+          status: 'sent',
+          data: response,
+        });
+      } catch (error) {
+        return c.json({
+          status: 'failed',
+          message: error instanceof Error ? error.message : String(error),
+        });
+      }
     }
   );
 
@@ -65,6 +73,7 @@ export const createMessageController = () => {
         });
       }
 
+      try {
       const response = await whatsapp.sendTextMessage({
         sessionId: payload.session,
         to: payload.to,
@@ -72,8 +81,15 @@ export const createMessageController = () => {
       });
 
       return c.json({
-        data: response,
-      });
+          status: 'sent',
+          data: response,
+        });
+      } catch (error) {
+        return c.json({
+          status: 'failed',
+          message: error instanceof Error ? error.message : String(error),
+        });
+      }
     }
   );
 
@@ -104,6 +120,7 @@ export const createMessageController = () => {
         isGroup: payload.is_group,
       });
 
+      try {
       const response = await whatsapp.sendImage({
         sessionId: payload.session,
         to: payload.to,
@@ -113,8 +130,15 @@ export const createMessageController = () => {
       });
 
       return c.json({
-        data: response,
-      });
+          status: 'sent',
+          data: response,
+        });
+      } catch (error) {
+        return c.json({
+          status: 'failed',
+          message: error instanceof Error ? error.message : String(error),
+        });
+      }
     }
   );
   app.post(
@@ -145,6 +169,7 @@ export const createMessageController = () => {
         isGroup: payload.is_group,
       });
 
+      try {
       const response = await whatsapp.sendDocument({
         sessionId: payload.session,
         to: payload.to,
@@ -154,9 +179,16 @@ export const createMessageController = () => {
         isGroup: payload.is_group,
       });
 
-      return c.json({
-        data: response,
-      });
+       return c.json({
+          status: 'sent',
+          data: response,
+        });
+      } catch (error) {
+        return c.json({
+          status: 'failed',
+          message: error instanceof Error ? error.message : String(error),
+        });
+      }
     }
   );
 
